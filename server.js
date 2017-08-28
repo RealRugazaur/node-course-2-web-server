@@ -92,6 +92,13 @@ app.get('/bad', (req, res) => {
   res.send({error: 'Error'});
 });
 
+app.get('/projects', (req, res) => {
+  res.render('projects.hbs',{
+    pageTitle: 'Portfolio',
+    message: 'Portfolio page here',
+  })
+});
+
 // Связать приложение с портом.
 // Оно запуститься и не завершит свою работу
 // пока это не сделать вручную или пока не произойдет ошибка.
