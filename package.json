@@ -1,0 +1,21 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.13.1",
+    "eslint": "^4.5.0",
+    "express": "^4.15.4",
+    "hbs": "^4.0.1",
+    "lodash": "^4.17.4",
+    "request": "^2.81.0",
+    "yargs": "^4.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrey Gurin",
+  "license": "ISC"
+}
