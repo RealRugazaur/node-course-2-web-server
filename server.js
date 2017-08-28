@@ -4,6 +4,13 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
+// heroku - позволяет развернуть git проект в облаке, подробнее в лекциях 4.7 - 4.10.
+// Нет смысла это конспектировать, т.к. на примере будет понятнее.
+
+// берем значенение порта из environment variable PORT, эту перменную назначит
+// heroku при развертывании. Устанавлием порт 3000 если запускаем прогу на локальной машине
+const port = process.env.PORT || 3000;
+
 let app = express();
 // partials - части разментки, которые используются на нескольких страницах
 hbs.registerPartials(__dirname + '/views/partials');
@@ -88,8 +95,8 @@ app.get('/bad', (req, res) => {
 // Связать приложение с портом.
 // Оно запуститься и не завершит свою работу
 // пока это не сделать вручную или пока не произойдет ошибка.
-app.listen(3000, () => {
+app.listen(port, () => {
   // Данная функция будет вызвана, как только сервер запуститься
-  console.log('Server is up in port 3000');
+  console.log(`Server is up in port ${port}`);
 }); // localhost:3000
 
