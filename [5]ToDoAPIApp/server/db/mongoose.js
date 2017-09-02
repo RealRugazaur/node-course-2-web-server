@@ -12,9 +12,10 @@ mongoose.Promise = global.Promise;
 // для connect, mongoose сделает все сам, он не
 // позволит вызывать операции обнровления пока
 // не произойдет окончательное подключение.
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
+mongoose.connect(process.env.MONGODB_URI);
 
 module.exports = {
   mongoose
 };
 
+process.env.NODE_ENV === 'production'

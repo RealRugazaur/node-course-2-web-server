@@ -1,5 +1,4 @@
 const _ = require('lodash');
-
 let express = require('express');
 let bodyParser = require('body-parser');
 // body-parser - позволяет автоматически преобразовывать json
@@ -12,7 +11,7 @@ let {User} = require('./models/user');
 
 let app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
