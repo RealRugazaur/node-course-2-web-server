@@ -1,5 +1,6 @@
 const {SHA256} = require('crypto-js');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // НИЗКОУРОВНЕВЫЙ ПОДХОД
 let message = 'I am user number 3';
@@ -31,7 +32,7 @@ if (resultHash === token.hash) {
   console.log('Data was changed. Do not trust!');
 }
 
-// ВЫСОКОУРВНЕВЫЙ ПОДХОД - JSON WEB TOKEN - это стандарт на сегодняшний день. (сайт jwt.io)
+// ВЫСОКОУРОВНЕВЫЙ ПОДХОД - JSON WEB TOKEN - это стандарт на сегодняшний день. (сайт jwt.io)
 // Там же можно разобрать хеш строку, кранящуюся в token.
 // 123abс - уникальные данные, о которых говорилось выше
 token = jwt.sign(data, '123abc');
@@ -39,3 +40,19 @@ console.log(token);
 // при отрицательном резульате верификации выброситься исключение
 let decoded = jwt.verify(token, '123abc');
 console.log('decoded', decoded); // iat - время создания токена
+
+// ОЧЕНЬ ВЫСОКОУРОВНЕВЫЙ ПОДХОД, нет нобходимости заботиться о salt, можно захешировать данные перед записью в базу.
+let password = '123abc!';
+// чем больше число, тем больше циклов,
+// тем медленне будут выполняться метод (это помогаеты от атаки brute force).
+// Мы добавляем соль к хешу пароля, чтобы нельзя было получить пароль методом перебора.
+bcrypt.genSalt(10, (err, salt) => {
+  bcrypt.hash(password, salt, (err, hash) => {
+    console.log(hash);
+  });
+});
+// Проверяем верен ли пароль
+let hashedPassword = '$2a$10$bs7RnRz6FqU3xjK1LtxdLegnVRi8EvEM9jbg/o85zhTsQW4wzuX5q';
+bcrypt.compare(password, hashedPassword, (err, res) => {
+  console.log(res);
+});
