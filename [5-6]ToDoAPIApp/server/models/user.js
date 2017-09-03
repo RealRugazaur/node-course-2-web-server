@@ -42,7 +42,7 @@ UserSchema.methods.toJSON = function () {
   return _.pick(userObject, ['_id', 'email']);
 };
 
-// Функция экземпляра
+// Instance method - Функция экземпляра
 UserSchema.methods.generateAuthToken = function () {
   // Используем обычную функцию, чтобы захватить this
   let user = this;
@@ -58,6 +58,31 @@ UserSchema.methods.generateAuthToken = function () {
     // похоже это нормально
     return token;
   });
+};
+
+// Model method ("Статический метод")
+
+UserSchema.statics.findByToken = function (token) {
+  // Здесь мы захватываем саму модель, а не её экземпляр.
+  let User = this;
+  let decoded;
+
+  try {
+    decoded = jwt.verify(token, 'abc123');
+  } catch (e) {
+    // return new Promise((resolve, reject) => {
+    //   reject();
+    // });
+    // Или ( можно передать и инфу об ошибке вроде строки 'test' )
+    return Promise.reject('test');
+  }
+
+  return User.findOne({
+    _id: decoded._id,
+    // Ковычки нужно ОБЯЗАТЕЛЬНО использовать при наличии точки.
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  })
 };
 
 let User = mongoose.model('User', UserSchema);
