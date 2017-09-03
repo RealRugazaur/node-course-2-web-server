@@ -1,4 +1,4 @@
-let env = process.env.NODE_ENV || 'development'; // Переменная окружения, установленная в heroku
+let env = process.env.NODE_ENV || 'development'; // Переменная окружения, установленная в heroku как "production"
 // Локально мы устанавливаем её в package.json (export - для UNIX и SET для Windows
 console.log('env ****', env);
 

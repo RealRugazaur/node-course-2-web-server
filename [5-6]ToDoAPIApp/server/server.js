@@ -1,3 +1,5 @@
+require('./config/config');
+
 const _ = require('lodash');
 let express = require('express');
 let bodyParser = require('body-parser');
@@ -107,6 +109,26 @@ app.patch('/todos/:id', (req, res) => {
 
 });
 
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+
+  let user = new User({
+    email: body.email,
+    password: body.password
+  });
+  // Или new User(body);
+
+  user.save().then((doc) => {
+    return user.generateAuthToken();
+    //res.send(doc);
+  })
+  .then((token) => {
+    res.header('x-auth', token).send(user)
+  })
+  .catch((e) => {
+    res.status(400).send(e);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Started on port ${port}`);
