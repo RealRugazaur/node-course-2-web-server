@@ -86,6 +86,31 @@ UserSchema.statics.findByToken = function (token) {
   })
 };
 
+UserSchema.statics.findByCredentials = function (email, password) {
+  let User = this;
+
+  return User.findOne({email}).then((user) => {;
+    if (!user) {
+      return Promise.reject();
+    }
+    return new Promise((resolve, reject) => {
+      // bcrypt не поддерживает Promisses
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (result) {
+          resolve(user);
+        } else {
+          reject();
+        }
+
+      });
+    });
+
+
+  }).catch((e) => {
+    return res.status(400).send();
+  })
+};
+
 // Этот middleware будет вызван при сохранении документа.
 
 UserSchema.pre('save', function (next) {
